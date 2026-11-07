@@ -22,7 +22,13 @@ fun AppNavigation(
     ) {
         composable(Screen.OurSpecialists.route) {
             OurSpecialistsScreen(
-                onSpecialistClick = { specialist ->
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onSearchClick = {
+
+                },
+                onSelectClick = { specialist ->
 
                 }
             )
