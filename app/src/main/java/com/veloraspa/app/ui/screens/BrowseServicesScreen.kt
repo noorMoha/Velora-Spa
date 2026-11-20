@@ -1,5 +1,4 @@
-package com.veloraspa.app.screens
-
+package com.veloraspa.app.ui.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
