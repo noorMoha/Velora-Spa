@@ -21,6 +21,10 @@ import com.veloraspa.app.ui.screens.ServiceDetailsScreen
 import com.veloraspa.app.ui.screens.SignUpScreen
 import com.veloraspa.app.ui.screens.SplashScreen
 import com.veloraspa.app.ui.screens.StaffAndReviewsScreen
+import com.veloraspa.app.ui.screens.BookAppointmentScreen
+import com.veloraspa.app.ui.screens.ProfileScreen
+import com.veloraspa.app.ui.screens.StaffProfileScreen
+import com.veloraspa.app.ui.screens.AppointmentConfirmedScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -273,5 +277,52 @@ fun AppNavigation(
                 }
             )
         }
+        composable(Screen.BookAppointment.route) {
+            BookAppointmentScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onBookingConfirmed = { date, time, specialist ->
+                    navController.navigate(Screen.AppointmentConfirmed.route)
+                }
+            )
+        }
+        composable(Screen.AppointmentConfirmed.route) {
+            AppointmentConfirmedScreen(
+                onGoMyBookingClick = {
+                    navController.navigate(Screen.ManageBookings.route) {
+                        popUpTo(Screen.BookAppointment.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+        composable(Screen.ProfileCustomer.route) {
+            ProfileScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onCancelClick = {
+                    navController.popBackStack()
+                },
+                onSubmitClick = { _, _, _ ->
+
+                }
+            )
+        }
+        composable(Screen.StaffProfile.route) {
+            StaffProfileScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onViewScheduleClick = {
+                    navController.navigate(Screen.AllAppointments.route)
+                },
+                onEditProfileClick = {
+
+                }
+            )
+        }
     }
-}
+
+    }
+
