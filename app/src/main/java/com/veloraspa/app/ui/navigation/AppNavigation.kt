@@ -5,9 +5,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.veloraspa.app.ui.screens.EditAddServiceScreen
 import com.veloraspa.app.ui.screens.OurSpecialistsScreen
+import com.veloraspa.app.ui.screens.ServiceDetailsScreen
 import com.veloraspa.app.ui.screens.SplashScreen
 import com.veloraspa.app.ui.screens.StaffAndReviewsScreen
+import com.veloraspa.app.model.Service
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -73,6 +76,44 @@ fun AppNavigation(
             )
         }
 
-        //...
+        composable(Screen.ServiceDetails.route) {
+            ServiceDetailsScreen(
+                service = Service(
+                    id = "1",
+                    name = "Signature Massage",
+                    description = "Experience ultimate relaxation with our signature treatment, combining Swedish and deep tissue techniques.",
+                    price = 90.0,
+                    duration = "60",
+                    category = "Massage Therapy"
+                ),
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onBookClick = {
+                    navController.navigate(Screen.BookAppointment.route)
+                },
+                onFavoriteClick = {
+                    // TODO: Toggle favorite state
+                }
+            )
+        }
+
+        composable(Screen.EditAddService.route) {
+            EditAddServiceScreen(
+                service = null,
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onSaveClick = {
+                    navController.popBackStack()
+                },
+                onPreviewClick = {
+                    navController.navigate(Screen.ServiceDetails.route)
+                },
+                onChangeImageClick = {
+                    // TODO: Handle image selection
+                }
+            )
+        }
     }
 }
