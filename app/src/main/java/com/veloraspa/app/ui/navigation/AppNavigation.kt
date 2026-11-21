@@ -5,17 +5,20 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.veloraspa.app.model.Service
+import com.veloraspa.app.ui.screens.AdminDashboardScreen
+import com.veloraspa.app.ui.screens.AdminStaffLoginScreen
+import com.veloraspa.app.ui.screens.AllAppointmentsScreen
 import com.veloraspa.app.ui.screens.EditAddServiceScreen
+import com.veloraspa.app.ui.screens.FavoritesScreen
+import com.veloraspa.app.ui.screens.HomeScreen
+import com.veloraspa.app.ui.screens.LoginScreen
+import com.veloraspa.app.ui.screens.ManageBookingsScreen
 import com.veloraspa.app.ui.screens.OurSpecialistsScreen
 import com.veloraspa.app.ui.screens.ServiceDetailsScreen
+import com.veloraspa.app.ui.screens.SignUpScreen
 import com.veloraspa.app.ui.screens.SplashScreen
 import com.veloraspa.app.ui.screens.StaffAndReviewsScreen
-import com.veloraspa.app.model.Service
-import com.veloraspa.app.ui.screens.AllAppointmentsScreen
-import com.veloraspa.app.ui.screens.FavoritesScreen
-import com.veloraspa.app.ui.screens.ManageBookingsScreen
-import com.veloraspa.app.ui.screens.AdminDashboardScreen
-import com.veloraspa.app.ui.screens.HomeScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -59,6 +62,61 @@ fun AppNavigation(
             )
         }
 
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoginSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                },
+                onForgotPasswordClick = {
+                    // مسار استعادة كلمة المرور (إذا وُجد)
+                },
+                onSignUpClick = {
+                    navController.navigate(Screen.SignUp.route)
+                },
+                onAdminPortalClick = {
+                    navController.navigate(Screen.AdminStaffLogin.route)
+                }
+            )
+        }
+
+        composable(Screen.SignUp.route) {
+            SignUpScreen(
+                onSignUpSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.SignUp.route) { inclusive = true }
+                    }
+                },
+                onLoginClick = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                },
+                onTermsClick = {
+                    // مسار الشروط والأحكام (إذا وُجد)
+                }
+            )
+        }
+
+        composable(Screen.AdminStaffLogin.route) {
+            AdminStaffLoginScreen(
+                onSwitchToCustomer = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                },
+                onSignInAsStaff = {
+                    navController.navigate(Screen.AdminDashboard.route) {
+                        popUpTo(Screen.AdminStaffLogin.route) { inclusive = true }
+                    }
+                },
+                onContactHrClick = {
+                    // إجراء أو مسار التواصل مع HR
+                }
+            )
+        }
+
         composable(Screen.OurSpecialists.route) {
             OurSpecialistsScreen(
                 onBackClick = {
@@ -67,7 +125,7 @@ fun AppNavigation(
                 onSearchClick = {
                     // TODO: Handle search
                 },
-                onSelectClick = { specialist ->
+                onSelectClick = { _ ->
                     navController.navigate(Screen.BookAppointment.route)
                 }
             )
@@ -120,12 +178,13 @@ fun AppNavigation(
                 }
             )
         }
+
         composable(Screen.ManageBookings.route) {
             ManageBookingsScreen(
                 onBackClick = {
                     navController.popBackStack()
                 },
-                onRescheduleClick = { booking ->
+                onRescheduleClick = { _ ->
                     navController.navigate(Screen.BookAppointment.route)
                 }
             )
@@ -136,10 +195,10 @@ fun AppNavigation(
                 onBackClick = {
                     navController.popBackStack()
                 },
-                onBookServiceClick = { service ->
+                onBookServiceClick = { _ ->
                     navController.navigate(Screen.BookAppointment.route)
                 },
-                onSelectSpecialistClick = { specialist ->
+                onSelectSpecialistClick = { _ ->
                     navController.navigate(Screen.BookAppointment.route)
                 }
             )
@@ -152,6 +211,7 @@ fun AppNavigation(
                 }
             )
         }
+
         composable(Screen.Home.route) {
             HomeScreen(
                 onNavigateToServices = { _ ->
@@ -194,6 +254,5 @@ fun AppNavigation(
                 }
             )
         }
-
     }
 }
