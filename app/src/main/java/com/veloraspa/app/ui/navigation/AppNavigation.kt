@@ -11,6 +11,9 @@ import com.veloraspa.app.ui.screens.ServiceDetailsScreen
 import com.veloraspa.app.ui.screens.SplashScreen
 import com.veloraspa.app.ui.screens.StaffAndReviewsScreen
 import com.veloraspa.app.model.Service
+import com.veloraspa.app.ui.screens.AllAppointmentsScreen
+import com.veloraspa.app.ui.screens.FavoritesScreen
+import com.veloraspa.app.ui.screens.ManageBookingsScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -112,6 +115,38 @@ fun AppNavigation(
                 },
                 onChangeImageClick = {
                     // TODO: Handle image selection
+                }
+            )
+        }
+        composable(Screen.ManageBookings.route) {
+            ManageBookingsScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onRescheduleClick = { booking ->
+                    navController.navigate(Screen.BookAppointment.route)
+                }
+            )
+        }
+
+        composable(Screen.Favorites.route) {
+            FavoritesScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onBookServiceClick = { service ->
+                    navController.navigate(Screen.BookAppointment.route)
+                },
+                onSelectSpecialistClick = { specialist ->
+                    navController.navigate(Screen.BookAppointment.route)
+                }
+            )
+        }
+
+        composable(Screen.AllAppointments.route) {
+            AllAppointmentsScreen(
+                onBackClick = {
+                    navController.popBackStack()
                 }
             )
         }
