@@ -7,27 +7,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.veloraspa.app.ui.theme.VeloraspaTheme
 
 @Composable
 fun SplashScreen(
     onGetStartedClick: () -> Unit = {},
     onLoginClick: () -> Unit = {}
 ) {
-    // الألوان المستوحاة من التصميم (خلفية وردية فاتحة، زر وردي، ونصوص داكنة متناسقة)
-    val backgroundColor = Color(0xFFF9F1F2)
-    val buttonColor = Color(0xFFC88A8E)
-    val textColor = Color(0xFF4A3B3C)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(MaterialTheme.colorScheme.background) // PinkBackground
             .padding(24.dp)
     ) {
         Column(
@@ -40,9 +36,10 @@ fun SplashScreen(
             // عنوان التطبيق
             Text(
                 text = "Velora Spa",
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Bold,
-                color = textColor
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontSize = 34.sp
+                ),
+                color = MaterialTheme.colorScheme.onBackground // DarkBrown
             )
 
             Spacer(modifier = Modifier.height(10.dp))
@@ -50,9 +47,9 @@ fun SplashScreen(
             // الوصف الترحيبي تحت العنوان
             Text(
                 text = "Your sanctuary of peace\nand wellness.",
-                fontSize = 15.sp,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
-                color = textColor.copy(alpha = 0.7f)
+                color = MaterialTheme.colorScheme.secondary // SoftBrown
             )
 
             Spacer(modifier = Modifier.height(50.dp))
@@ -60,7 +57,10 @@ fun SplashScreen(
             // زر البدء (Get Started)
             Button(
                 onClick = onGetStartedClick,
-                colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.primary, // DarkBrown
+                    contentColor = MaterialTheme.colorScheme.onPrimary // White
+                ),
                 shape = RoundedCornerShape(24.dp),
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
@@ -68,9 +68,11 @@ fun SplashScreen(
             ) {
                 Text(
                     text = "Get Started",
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Medium
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Medium
+                    ),
+                    color = MaterialTheme.colorScheme.onPrimary // White
                 )
             }
 
@@ -83,8 +85,8 @@ fun SplashScreen(
             ) {
                 Text(
                     text = "Already have an account? ",
-                    fontSize = 13.sp,
-                    color = textColor.copy(alpha = 0.7f)
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.secondary // SoftBrown
                 )
                 TextButton(
                     onClick = onLoginClick,
@@ -92,13 +94,22 @@ fun SplashScreen(
                 ) {
                     Text(
                         text = "Log in",
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = textColor,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = MaterialTheme.colorScheme.onBackground, // DarkBrown
                         textDecoration = TextDecoration.Underline
                     )
                 }
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SplashScreenPreview() {
+    VeloraspaTheme {
+        SplashScreen()
     }
 }
