@@ -14,6 +14,8 @@ import com.veloraspa.app.model.Service
 import com.veloraspa.app.ui.screens.AllAppointmentsScreen
 import com.veloraspa.app.ui.screens.FavoritesScreen
 import com.veloraspa.app.ui.screens.ManageBookingsScreen
+import com.veloraspa.app.ui.screens.AdminDashboardScreen
+import com.veloraspa.app.ui.screens.HomeScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -150,5 +152,48 @@ fun AppNavigation(
                 }
             )
         }
+        composable(Screen.Home.route) {
+            HomeScreen(
+                onNavigateToServices = { _ ->
+                    navController.navigate(Screen.BrowseServices.route)
+                },
+                onNavigateToServiceDetails = { _ ->
+                    navController.navigate(Screen.ServiceDetails.route)
+                },
+                onNavigateToBookAppointment = {
+                    navController.navigate(Screen.BookAppointment.route)
+                },
+                onNavigateToBookings = {
+                    navController.navigate(Screen.ManageBookings.route)
+                },
+                onNavigateToFavorites = {
+                    navController.navigate(Screen.Favorites.route)
+                },
+                onNavigateToProfile = {
+                    navController.navigate(Screen.ProfileCustomer.route)
+                }
+            )
+        }
+
+        composable(Screen.AdminDashboard.route) {
+            AdminDashboardScreen(
+                onNavigateToManageServices = {
+                    navController.navigate(Screen.ManageServices.route)
+                },
+                onNavigateToAllAppointments = {
+                    navController.navigate(Screen.AllAppointments.route)
+                },
+                onNavigateToSpecialists = {
+                    navController.navigate(Screen.StaffAndReviews.route)
+                },
+                onNavigateToConsumer = {
+                    navController.navigate(Screen.Home.route)
+                },
+                onNavigateToStaffProfile = {
+                    navController.navigate(Screen.StaffProfile.route)
+                }
+            )
+        }
+
     }
 }
