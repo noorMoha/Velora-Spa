@@ -16,6 +16,8 @@ import com.veloraspa.app.ui.screens.FavoritesScreen
 import com.veloraspa.app.ui.screens.ManageBookingsScreen
 import com.veloraspa.app.ui.screens.AdminDashboardScreen
 import com.veloraspa.app.ui.screens.HomeScreen
+import com.veloraspa.app.ui.screens.BrowseServicesScreen
+import com.veloraspa.app.ui.screens.ManageServicesScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -194,6 +196,23 @@ fun AppNavigation(
                 }
             )
         }
+        composable(Screen.BrowseServices.route) {
+            BrowseServicesScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                },
+                onBookService = { service ->
+                    navController.navigate(Screen.ServiceDetails.route)
+                }
+            )
+        }
 
+        composable(Screen.ManageServices.route) {
+            ManageServicesScreen(
+                onBackClick = {
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 }
