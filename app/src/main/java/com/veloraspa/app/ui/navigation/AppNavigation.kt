@@ -5,19 +5,22 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.veloraspa.app.model.Service
+import com.veloraspa.app.ui.screens.AdminDashboardScreen
+import com.veloraspa.app.ui.screens.AdminStaffLoginScreen
+import com.veloraspa.app.ui.screens.AllAppointmentsScreen
+import com.veloraspa.app.ui.screens.BrowseServicesScreen
 import com.veloraspa.app.ui.screens.EditAddServiceScreen
+import com.veloraspa.app.ui.screens.FavoritesScreen
+import com.veloraspa.app.ui.screens.HomeScreen
+import com.veloraspa.app.ui.screens.LoginScreen
+import com.veloraspa.app.ui.screens.ManageBookingsScreen
+import com.veloraspa.app.ui.screens.ManageServicesScreen
 import com.veloraspa.app.ui.screens.OurSpecialistsScreen
 import com.veloraspa.app.ui.screens.ServiceDetailsScreen
+import com.veloraspa.app.ui.screens.SignUpScreen
 import com.veloraspa.app.ui.screens.SplashScreen
 import com.veloraspa.app.ui.screens.StaffAndReviewsScreen
-import com.veloraspa.app.model.Service
-import com.veloraspa.app.ui.screens.AllAppointmentsScreen
-import com.veloraspa.app.ui.screens.FavoritesScreen
-import com.veloraspa.app.ui.screens.ManageBookingsScreen
-import com.veloraspa.app.ui.screens.AdminDashboardScreen
-import com.veloraspa.app.ui.screens.HomeScreen
-import com.veloraspa.app.ui.screens.BrowseServicesScreen
-import com.veloraspa.app.ui.screens.ManageServicesScreen
 
 sealed class Screen(val route: String) {
     object Splash : Screen("splash")
@@ -57,6 +60,59 @@ fun AppNavigation(
                 },
                 onLoginClick = {
                     navController.navigate(Screen.Login.route)
+                }
+            )
+        }
+
+        composable(Screen.Login.route) {
+            LoginScreen(
+                onLoginSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
+                onForgotPasswordClick = {
+                    // TODO: Handle forgot password action
+                },
+                onSignUpClick = {
+                    navController.navigate(Screen.SignUp.route)
+                },
+                onAdminPortalClick = {
+                    navController.navigate(Screen.AdminStaffLogin.route)
+                }
+            )
+        }
+
+        composable(Screen.SignUp.route) {
+            SignUpScreen(
+                onSignUpSuccess = {
+                    navController.navigate(Screen.Home.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
+                onLoginClick = {
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Login.route) { inclusive = true }
+                    }
+                },
+                onTermsClick = {
+                    // TODO: Handle terms and conditions action
+                }
+            )
+        }
+
+        composable(Screen.AdminStaffLogin.route) {
+            AdminStaffLoginScreen(
+                onSwitchToCustomer = {
+                    navController.popBackStack()
+                },
+                onSignInAsStaff = {
+                    navController.navigate(Screen.AdminDashboard.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                },
+                onContactHrClick = {
+                    // TODO: Handle contact HR action
                 }
             )
         }
@@ -122,6 +178,7 @@ fun AppNavigation(
                 }
             )
         }
+
         composable(Screen.ManageBookings.route) {
             ManageBookingsScreen(
                 onBackClick = {
@@ -154,6 +211,7 @@ fun AppNavigation(
                 }
             )
         }
+
         composable(Screen.Home.route) {
             HomeScreen(
                 onNavigateToServices = { _ ->
@@ -196,6 +254,7 @@ fun AppNavigation(
                 }
             )
         }
+
         composable(Screen.BrowseServices.route) {
             BrowseServicesScreen(
                 onBackClick = {
